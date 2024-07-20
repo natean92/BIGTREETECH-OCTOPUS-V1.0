@@ -188,42 +188,39 @@
   #define Z_CS_PIN                          PC6
 #endif
 
-#define Z2_STEP_PIN                         PG4   // MOTOR 3
-#define Z2_DIR_PIN                          PC1
-#ifndef Z2_ENABLE_PIN
-  #define Z2_ENABLE_PIN                     PA0
-#endif
-#ifndef Z2_CS_PIN
-  #define Z2_CS_PIN                         PC7
-#endif
-
-#define E0_STEP_PIN                         PF9   // MOTOR 4
-#define E0_DIR_PIN                          PF10
-#define E0_ENABLE_PIN                       PG2
+#define E0_STEP_PIN                         PG4   // MOTOR 3 익스트루더 5개를 사용하기 위해 Z2를 없애고 사용
+#define E0_DIR_PIN                          PC1
+#define E0_ENABLE_PIN                       PA0
 #ifndef E0_CS_PIN
-  #define E0_CS_PIN                         PF2
+  #define E0_CS_PIN                         PC7
 #endif
 
-#define E1_STEP_PIN                         PC13  // MOTOR 5
-#define E1_DIR_PIN                          PF0
-#define E1_ENABLE_PIN                       PF1
+#define E1_STEP_PIN                         PF9   // MOTOR 4
+#define E1_DIR_PIN                          PF10
+#define E1_ENABLE_PIN                       PG2
 #ifndef E1_CS_PIN
-  #define E1_CS_PIN                         PE4
+  #define E1_CS_PIN                         PF2
 #endif
 
-#define E2_STEP_PIN                         PE2   // MOTOR 6
-#define E2_DIR_PIN                          PE3
-#define E2_ENABLE_PIN                       PD4
+#define E2_STEP_PIN                         PC13  // MOTOR 5
+#define E2_DIR_PIN                          PF0
+#define E2_ENABLE_PIN                       PF1
 #ifndef E2_CS_PIN
-
-  #define E2_CS_PIN                         PE1
+  #define E2_CS_PIN                         PE4
 #endif
 
-#define E3_STEP_PIN                         PE6   // MOTOR 7
-#define E3_DIR_PIN                          PA14
-#define E3_ENABLE_PIN                       PE0
+#define E3_STEP_PIN                         PE2   // MOTOR 6
+#define E3_DIR_PIN                          PE3
+#define E3_ENABLE_PIN                       PD4
 #ifndef E3_CS_PIN
-  #define E3_CS_PIN                         PD3
+  #define E3_CS_PIN                         PE1
+#endif
+
+#define E4_STEP_PIN                         PE6   // MOTOR 7
+#define E4_DIR_PIN                          PA14
+#define E4_ENABLE_PIN                       PE0
+#ifndef E4_CS_PIN
+  #define E4_CS_PIN                         PD3
 #endif
 
 //
@@ -308,20 +305,20 @@
   #define Z_SERIAL_TX_PIN                   PC6
   #define Z_SERIAL_RX_PIN        Z_SERIAL_TX_PIN
 
-  #define Z2_SERIAL_TX_PIN                  PC7
-  #define Z2_SERIAL_RX_PIN      Z2_SERIAL_TX_PIN
+  #define E0_SERIAL_TX_PIN                  PC7 //원래
+  #define E0_SERIAL_RX_PIN      E0_SERIAL_TX_PIN //원래
 
-  #define E0_SERIAL_TX_PIN                  PF2
-  #define E0_SERIAL_RX_PIN      E0_SERIAL_TX_PIN
-
-  #define E1_SERIAL_TX_PIN                  PE4
+  #define E1_SERIAL_TX_PIN                  PF2
   #define E1_SERIAL_RX_PIN      E1_SERIAL_TX_PIN
 
-  #define E2_SERIAL_TX_PIN                  PE1
+  #define E2_SERIAL_TX_PIN                  PE4
   #define E2_SERIAL_RX_PIN      E2_SERIAL_TX_PIN
 
-  #define E3_SERIAL_TX_PIN                  PD3
+  #define E3_SERIAL_TX_PIN                  PE1
   #define E3_SERIAL_RX_PIN      E3_SERIAL_TX_PIN
+
+  #define E4_SERIAL_TX_PIN                  PD3
+  #define E4_SERIAL_RX_PIN      E4_SERIAL_TX_PIN
 
   // Reduce baud rate to improve software serial reliability
   #define TMC_BAUD_RATE                    19200
