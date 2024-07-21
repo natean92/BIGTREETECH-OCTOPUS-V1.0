@@ -497,15 +497,19 @@
  * The fan turns on automatically whenever any driver is enabled and turns
  * off (or reduces to idle speed) shortly after drivers are turned off.
  */
-//#define USE_CONTROLLER_FAN
+// 옥토퍼스 보드에 나머지 팬을 사용할 때 활성화
+#define USE_CONTROLLER_FAN
 #if ENABLED(USE_CONTROLLER_FAN)
-  //#define CONTROLLER_FAN_PIN -1           // Set a custom pin for the controller fan
+  #define CONTROLLER_FAN_PIN PD12           // 첫 번째 컨트롤러 팬의 핀 번호
+  #define CONTROLLER_FAN_PIN2 PD13          // 두 번째 컨트롤러 팬의 핀 번호
+  #define CONTROLLER_FAN_PIN3 PD14          // 세 번째 컨트롤러 팬의 핀 번호
+  #define CONTROLLER_FAN_PIN4 PD15          // 네 번째 컨트롤러 팬의 핀 번호
   //#define CONTROLLER_FAN_USE_Z_ONLY       // With this option only the Z axis is considered
   //#define CONTROLLER_FAN_IGNORE_Z         // Ignore Z stepper. Useful when stepper timeout is disabled.
-  #define CONTROLLERFAN_SPEED_MIN         0 // (0-255) Minimum speed. (If set below this value the fan is turned off.)
-  #define CONTROLLERFAN_SPEED_ACTIVE    255 // (0-255) Active speed, used when any motor is enabled
-  #define CONTROLLERFAN_SPEED_IDLE        0 // (0-255) Idle speed, used when motors are disabled
-  #define CONTROLLERFAN_IDLE_TIME        60 // (seconds) Extra time to keep the fan running after disabling motors
+  #define CONTROLLERFAN_SPEED_MIN       200 // (0-255) 최소 속도. 이 값보다 낮으면 팬이 꺼집니다.
+  #define CONTROLLERFAN_SPEED_ACTIVE    255 // (0-255) 활성 상태에서 사용할 기본 속도
+  #define CONTROLLERFAN_SPEED_IDLE      255 // (0-255) 비활성 상태에서 사용할 기본 속도. (팬을 끄려면 0으로 설정)
+  #define CONTROLLERFAN_IDLE_TIME        60 // (초) 모터 비활성화 후 팬을 추가로 작동시킬 시간
 
   // Use TEMP_SENSOR_BOARD as a trigger for enabling the controller fan
   //#define CONTROLLER_FAN_MIN_BOARD_TEMP 40  // (°C) Turn on the fan if the board reaches this temperature
