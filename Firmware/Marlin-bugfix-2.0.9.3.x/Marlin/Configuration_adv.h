@@ -265,8 +265,10 @@
  * If you get false positives for "Thermal Runaway", increase
  * THERMAL_PROTECTION_HYSTERESIS and/or THERMAL_PROTECTION_PERIOD
  */
+
+// 핫엔드가 특정 온도에 도달해야 팬이 켜지는 기능
 #if ENABLED(THERMAL_PROTECTION_HOTENDS)
-  #define THERMAL_PROTECTION_PERIOD 40        // Seconds
+  #define THERMAL_PROTECTION_PERIOD 70        // Seconds
   #define THERMAL_PROTECTION_HYSTERESIS 4     // Degrees Celsius
 
   //#define ADAPTIVE_FAN_SLOWING              // Slow part cooling fan if temperature drops
@@ -497,22 +499,26 @@
  * The fan turns on automatically whenever any driver is enabled and turns
  * off (or reduces to idle speed) shortly after drivers are turned off.
  */
-//#define USE_CONTROLLER_FAN
+// 옥토퍼스 보드에 나머지 팬을 사용할 때 활성화
+#define USE_CONTROLLER_FAN
 #if ENABLED(USE_CONTROLLER_FAN)
-  //#define CONTROLLER_FAN_PIN -1           // Set a custom pin for the controller fan
+  #define CONTROLLER_FAN_PIN PD12           // 첫 번째 컨트롤러 팬의 핀 번호
+  #define CONTROLLER_FAN_PIN2 PD13          // 두 번째 컨트롤러 팬의 핀 번호
+  #define CONTROLLER_FAN_PIN3 PD14          // 세 번째 컨트롤러 팬의 핀 번호
+  #define CONTROLLER_FAN_PIN4 PD15          // 네 번째 컨트롤러 팬의 핀 번호
   //#define CONTROLLER_FAN_USE_Z_ONLY       // With this option only the Z axis is considered
   //#define CONTROLLER_FAN_IGNORE_Z         // Ignore Z stepper. Useful when stepper timeout is disabled.
-  #define CONTROLLERFAN_SPEED_MIN         0 // (0-255) Minimum speed. (If set below this value the fan is turned off.)
-  #define CONTROLLERFAN_SPEED_ACTIVE    255 // (0-255) Active speed, used when any motor is enabled
-  #define CONTROLLERFAN_SPEED_IDLE        0 // (0-255) Idle speed, used when motors are disabled
-  #define CONTROLLERFAN_IDLE_TIME        60 // (seconds) Extra time to keep the fan running after disabling motors
+  #define CONTROLLERFAN_SPEED_MIN       200 // (0-255) 최소 속도. 이 값보다 낮으면 팬이 꺼집니다.
+  #define CONTROLLERFAN_SPEED_ACTIVE    255 // (0-255) 활성 상태에서 사용할 기본 속도
+  #define CONTROLLERFAN_SPEED_IDLE      255 // (0-255) 비활성 상태에서 사용할 기본 속도. (팬을 끄려면 0으로 설정)
+  #define CONTROLLERFAN_IDLE_TIME        60 // (초) 모터 비활성화 후 팬을 추가로 작동시킬 시간
 
   // Use TEMP_SENSOR_BOARD as a trigger for enabling the controller fan
   //#define CONTROLLER_FAN_MIN_BOARD_TEMP 40  // (°C) Turn on the fan if the board reaches this temperature
 
-  //#define CONTROLLER_FAN_EDITABLE         // Enable M710 configurable settings
+  #define CONTROLLER_FAN_EDITABLE         // M710 구성 가능 설정을 활성화합니다.
   #if ENABLED(CONTROLLER_FAN_EDITABLE)
-    #define CONTROLLER_FAN_MENU             // Enable the Controller Fan submenu
+    #define CONTROLLER_FAN_MENU             // 컨트롤러 팬 서브메뉴를 활성화합니다.
   #endif
 #endif
 
@@ -596,18 +602,19 @@
  * Multiple extruders can be assigned to the same pin in which case
  * the fan will turn on when any selected extruder is above the threshold.
  */
-#define E0_AUTO_FAN_PIN -1
-#define E1_AUTO_FAN_PIN -1
-#define E2_AUTO_FAN_PIN -1
-#define E3_AUTO_FAN_PIN -1
-#define E4_AUTO_FAN_PIN -1
+// 컨트롤러 팬 대신 여기에 보드팬을 사용 해볼 수도 있음
+#define E0_AUTO_FAN_PIN PE5
+// #define E1_AUTO_FAN_PIN PD12
+// #define E2_AUTO_FAN_PIN PD13
+// #define E3_AUTO_FAN_PIN PD14
+// #define E4_AUTO_FAN_PIN PD15
 #define E5_AUTO_FAN_PIN -1
 #define E6_AUTO_FAN_PIN -1
 #define E7_AUTO_FAN_PIN -1
 #define CHAMBER_AUTO_FAN_PIN -1
 #define COOLER_AUTO_FAN_PIN -1
 
-#define EXTRUDER_AUTO_FAN_TEMPERATURE 50
+#define EXTRUDER_AUTO_FAN_TEMPERATURE 60
 #define EXTRUDER_AUTO_FAN_SPEED 255   // 255 == full speed
 #define CHAMBER_AUTO_FAN_TEMPERATURE 30
 #define CHAMBER_AUTO_FAN_SPEED 255
@@ -864,7 +871,7 @@
 
   // Safety: The probe needs time to recognize the command.
   //         Minimum command delay (ms). Enable and increase if needed.
-  //#define BLTOUCH_DELAY 500
+  #define BLTOUCH_DELAY 500
 
   /**
    * Settings for BLTOUCH Classic 1.2, 1.3 or BLTouch Smart 1.0, 2.0, 2.2, 3.0, 3.1, and most clones:
@@ -911,7 +918,7 @@
   //#define BLTOUCH_HS_MODE true
 
   // Safety: Enable voltage mode settings in the LCD menu.
-  //#define BLTOUCH_LCD_VOLTAGE_MENU
+  #define BLTOUCH_LCD_VOLTAGE_MENU
 
 #endif // BLTOUCH
 
@@ -1270,6 +1277,7 @@
 #endif
 
 // Change values more rapidly when the encoder is rotated faster
+// 모니터 밸브(다이얼) 관련 기능
 #define ENCODER_RATE_MULTIPLIER
 #if ENABLED(ENCODER_RATE_MULTIPLIER)
   #define ENCODER_10X_STEPS_PER_SEC   30  // (steps/s) Encoder rate for 10x speed
@@ -1277,6 +1285,8 @@
 #endif
 
 // Play a beep when the feedrate is changed from the Status Screen
+// 피드레이트가 변경되면 프린터가 비프음을 내어 사용자에게 변경 사실을 알려줌
+// 느리거나 빠르게 동작될 때 삐삐거릴 수 있음
 //#define BEEP_ON_FEEDRATE_CHANGE
 #if ENABLED(BEEP_ON_FEEDRATE_CHANGE)
   #define FEEDRATE_CHANGE_BEEP_DURATION   10
@@ -1322,9 +1332,10 @@
   #endif
 
   // Include a page of printer information in the LCD Main Menu
-  //#define LCD_INFO_MENU
+  // 프린터 정보를 표시해주는 기능
+  #define LCD_INFO_MENU
   #if ENABLED(LCD_INFO_MENU)
-    //#define LCD_PRINTER_INFO_IS_BOOTSCREEN // Show bootscreen(s) instead of Printer Info pages
+    #define LCD_PRINTER_INFO_IS_BOOTSCREEN // Show bootscreen(s) instead of Printer Info pages
   #endif
 
   // BACK menu items keep the highlight at the top
@@ -1369,17 +1380,18 @@
    * LED Control Menu
    * Add LED Control to the LCD menu
    */
-  //#define LED_CONTROL_MENU
+  // 모니터 밝기 조정
+  #define LED_CONTROL_MENU
   #if ENABLED(LED_CONTROL_MENU)
     #define LED_COLOR_PRESETS                 // Enable the Preset Color menu option
     //#define NEO2_COLOR_PRESETS              // Enable a second NeoPixel Preset Color menu option
     #if ENABLED(LED_COLOR_PRESETS)
-      #define LED_USER_PRESET_RED        255  // User defined RED value
+      #define LED_USER_PRESET_RED          0  // User defined RED value
       #define LED_USER_PRESET_GREEN      128  // User defined GREEN value
-      #define LED_USER_PRESET_BLUE         0  // User defined BLUE value
-      #define LED_USER_PRESET_WHITE      255  // User defined WHITE value
+      #define LED_USER_PRESET_BLUE       255  // User defined BLUE value
+      #define LED_USER_PRESET_WHITE      200  // User defined WHITE value
       #define LED_USER_PRESET_BRIGHTNESS 255  // User defined intensity
-      //#define LED_USER_PRESET_STARTUP       // Have the printer display the user preset color on startup
+      #define LED_USER_PRESET_STARTUP       // Have the printer display the user preset color on startup
     #endif
     #if ENABLED(NEO2_COLOR_PRESETS)
       #define NEO2_USER_PRESET_RED        255  // User defined RED value
@@ -1433,7 +1445,7 @@
 
   // The standard SD detect circuit reads LOW when media is inserted and HIGH when empty.
   // Enable this option and set to HIGH if your SD cards are incorrectly detected.
-  //#define SD_DETECT_STATE HIGH
+  #define SD_DETECT_STATE HIGH // 필요에 따라 LOW 또는 HIGH로 설정
 
   //#define SD_IGNORE_AT_STARTUP            // Don't mount the SD card when starting up
   //#define SDCARD_READONLY                 // Read-only SD card (to save over 2K of flash)
@@ -1553,7 +1565,7 @@
 
   //#define SD_REPRINT_LAST_SELECTED_FILE // On print completion open the LCD Menu and select the same file
 
-  //#define AUTO_REPORT_SD_STATUS         // Auto-report media status with 'M27 S<seconds>'
+  #define AUTO_REPORT_SD_STATUS         // Auto-report media status with 'M27 S<seconds>'
 
   /**
    * Support for USB thumb drives using an Arduino USB Host Shield or
@@ -1636,6 +1648,7 @@
    *
    * :[ 'LCD', 'ONBOARD', 'CUSTOM_CABLE' ]
    */
+  // SD카드가 어디와 연결되어 있는가
   #define SDCARD_CONNECTION ONBOARD
 
   // Enable if SD detect is rendered useless (e.g., by using an SD extender)
@@ -2078,12 +2091,13 @@
   //#define PROBING_MARGIN_BACK PROBING_MARGIN
 #endif
 
-#if EITHER(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL)
+// 레벨링 시작점 설정
+#if EITHER(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL) 
   // Override the mesh area if the automatic (max) area is too large
-  //#define MESH_MIN_X MESH_INSET
-  //#define MESH_MIN_Y MESH_INSET
-  //#define MESH_MAX_X X_BED_SIZE - (MESH_INSET)
-  //#define MESH_MAX_Y Y_BED_SIZE - (MESH_INSET)
+  #define MESH_MIN_X 30
+  #define MESH_MIN_Y 55
+  #define MESH_MAX_X 220 // 220-15
+  #define MESH_MAX_Y 220 // 220-52
 #endif
 
 #if BOTH(AUTO_BED_LEVELING_UBL, EEPROM_SETTINGS)
@@ -3219,7 +3233,7 @@
    * Enable M122 debugging command for TMC stepper drivers.
    * M122 S0/1 will enable continuous reporting.
    */
-  //#define TMC_DEBUG
+  #define TMC_DEBUG
 
   /**
    * You can set your own advanced settings by filling in predefined functions.
@@ -3532,6 +3546,7 @@
  * Add the M240 G-code to take a photo.
  * The photo can be triggered by a digital pin or a physical movement.
  */
+// 촬영 관련 기능
 //#define PHOTO_GCODE
 #if ENABLED(PHOTO_GCODE)
   // A position to move to (and raise Z) before taking the photo
@@ -4004,33 +4019,37 @@
  */
 
 // Custom Menu: Main Menu
+
 //#define CUSTOM_MENU_MAIN
+// 커스텀 메뉴 사용할 때 활성화
+#define CUSTOM_MENU_MAIN
 #if ENABLED(CUSTOM_MENU_MAIN)
-  //#define CUSTOM_MENU_MAIN_TITLE "Custom Commands"
-  #define CUSTOM_MENU_MAIN_SCRIPT_DONE "M117 User Script Done"
+  #define CUSTOM_MENU_MAIN_TITLE "Custom Commands"
+  #define CUSTOM_MENU_MAIN_SCRIPT_DONE "Custom Commands Done"
   #define CUSTOM_MENU_MAIN_SCRIPT_AUDIBLE_FEEDBACK
   //#define CUSTOM_MENU_MAIN_SCRIPT_RETURN   // Return to status screen after a script
   #define CUSTOM_MENU_MAIN_ONLY_IDLE         // Only show custom menu when the machine is idle
 
-  #define MAIN_MENU_ITEM_1_DESC "Home & UBL Info"
-  #define MAIN_MENU_ITEM_1_GCODE "G28\nG29 W"
-  //#define MAIN_MENU_ITEM_1_CONFIRM          // Show a confirmation dialog before this action
+  #define MAIN_MENU_ITEM_1_DESC "Load Now"
+  #define MAIN_MENU_ITEM_1_GCODE "G92 E0\nG1 E280 F800\nG92 E0"
+  #define MAIN_MENU_ITEM_1_CONFIRM
 
-  #define MAIN_MENU_ITEM_2_DESC "Preheat for " PREHEAT_1_LABEL
-  #define MAIN_MENU_ITEM_2_GCODE "M140 S" STRINGIFY(PREHEAT_1_TEMP_BED) "\nM104 S" STRINGIFY(PREHEAT_1_TEMP_HOTEND)
-  //#define MAIN_MENU_ITEM_2_CONFIRM
+  #define MAIN_MENU_ITEM_2_DESC "Unload Now"
+  #define MAIN_MENU_ITEM_2_GCODE "G92 E0\nG1 -E120 F800\nG92 E0"
+  #define MAIN_MENU_ITEM_2_CONFIRM          // Show a confirmation dialog before this action
 
-  //#define MAIN_MENU_ITEM_3_DESC "Preheat for " PREHEAT_2_LABEL
-  //#define MAIN_MENU_ITEM_3_GCODE "M140 S" STRINGIFY(PREHEAT_2_TEMP_BED) "\nM104 S" STRINGIFY(PREHEAT_2_TEMP_HOTEND)
-  //#define MAIN_MENU_ITEM_3_CONFIRM
+  #define MAIN_MENU_ITEM_3_DESC "SET All 200"
+  #define MAIN_MENU_ITEM_3_GCODE "G92 E0\nT0\nG1 E200 F800\nG92 E0\nT1\nG92 E0\nG1 E200 F800\nG92 E0\nT2\nG1 E200 F800\nG92 E0\nT3\nG92 E0\nG1 E200 F800\nG92 E0\nT4\nG92 E0\nG1 E200 F800\nG92 E0"
+  #define MAIN_MENU_ITEM_3_CONFIRM          // Show a confirmation dialog before this action
 
-  //#define MAIN_MENU_ITEM_4_DESC "Heat Bed/Home/Level"
-  //#define MAIN_MENU_ITEM_4_GCODE "M140 S" STRINGIFY(PREHEAT_2_TEMP_BED) "\nG28\nG29"
-  //#define MAIN_MENU_ITEM_4_CONFIRM
 
-  //#define MAIN_MENU_ITEM_5_DESC "Home & Info"
-  //#define MAIN_MENU_ITEM_5_GCODE "G28\nM503"
-  //#define MAIN_MENU_ITEM_5_CONFIRM
+  #define MAIN_MENU_ITEM_4_DESC "Unload All"
+  #define MAIN_MENU_ITEM_4_GCODE "G92 E0\nT0\nG1 -E200 F800\nG92 E0\nT1\nG92 E0\nG1 -E200 F800\nG92 E0\nT2\nG1 -E200 F800\nG92 E0\nT3\nG92 E0\nG1 -E200 F800\nG92 E0\nT4\nG92 E0\nG1 -E200 F800\nG92 E0"
+  #define MAIN_MENU_ITEM_4_CONFIRM
+
+  #define MAIN_MENU_ITEM_5_DESC "con fan on"
+  #define MAIN_MENU_ITEM_5_GCODE "M42 P12 S255\nM42 P13 S255"
+  #define MAIN_MENU_ITEM_5_CONFIRM
 #endif
 
 // Custom Menu: Configuration Menu
