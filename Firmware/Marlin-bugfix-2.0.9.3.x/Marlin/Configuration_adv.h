@@ -1333,7 +1333,7 @@
 
   // Include a page of printer information in the LCD Main Menu
   // 프린터 정보를 표시해주는 기능
-  #define LCD_INFO_MENU
+  // #define LCD_INFO_MENU
   #if ENABLED(LCD_INFO_MENU)
     #define LCD_PRINTER_INFO_IS_BOOTSCREEN // Show bootscreen(s) instead of Printer Info pages
   #endif
@@ -2094,7 +2094,7 @@
 // 레벨링 시작점 설정
 #if EITHER(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL) 
   // Override the mesh area if the automatic (max) area is too large
-  #define MESH_MIN_X 30
+  #define MESH_MIN_X 20
   #define MESH_MIN_Y 55
   #define MESH_MAX_X 220 // 220-15
   #define MESH_MAX_Y 220 // 220-52
