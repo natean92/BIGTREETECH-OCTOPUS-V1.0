@@ -60,9 +60,10 @@
 //
 // Z Probe (when not Z_MIN_PIN)
 //
-#ifndef Z_MIN_PROBE_PIN
-  #define Z_MIN_PROBE_PIN                   PB7
-#endif
+#define Z_MIN_PROBE_PIN                     PB7
+// #ifndef Z_MIN_PROBE_PIN
+//   #define Z_MIN_PROBE_PIN                   PB7
+// #endif
 
 //
 // Check for additional used endstop pins
