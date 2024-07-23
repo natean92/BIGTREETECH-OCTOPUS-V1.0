@@ -1981,31 +1981,30 @@
  */
 #define BABYSTEPPING
 #if ENABLED(BABYSTEPPING)
-  //#define INTEGRATED_BABYSTEPPING         // EXPERIMENTAL integration of babystepping into the Stepper ISR
-  #define BABYSTEP_WITHOUT_HOMING
-  #define BABYSTEP_ALWAYS_AVAILABLE       // Allow babystepping at all times (not just during movement).
-  //#define BABYSTEP_XY                     // Also enable X/Y Babystepping. Not supported on DELTA!
-  #define BABYSTEP_INVERT_Z false           // Change if Z babysteps should go the other way
-  //#define BABYSTEP_MILLIMETER_UNITS       // Specify BABYSTEP_MULTIPLICATOR_(XY|Z) in mm instead of micro-steps
-  #define BABYSTEP_MULTIPLICATOR_Z  1       // (steps or mm) Steps or millimeter distance for each Z babystep
-  #define BABYSTEP_MULTIPLICATOR_XY 1       // (steps or mm) Steps or millimeter distance for each XY babystep
+  //#define INTEGRATED_BABYSTEPPING         // 실험적인 기능
+  // #define BABYSTEP_WITHOUT_HOMING         // 홈 위치 없이 Babystepping 사용
+  // #define BABYSTEP_ALWAYS_AVAILABLE       // 항상 Babystepping 사용 가능
+  //#define BABYSTEP_XY                     // X/Y 축에서도 Babystepping 사용
+  #define BABYSTEP_INVERT_Z false           // Z Babystepping 방향 반전
+  //#define BABYSTEP_MILLIMETER_UNITS       // 밀리미터 단위로 Babystepping 설정
+  #define BABYSTEP_MULTIPLICATOR_Z  1       // Z Babystepping의 스텝 수 또는 밀리미터 거리
+  #define BABYSTEP_MULTIPLICATOR_XY 1       // XY Babystepping의 스텝 수 또는 밀리미터 거리
 
-  #define DOUBLECLICK_FOR_Z_BABYSTEPPING  // Double-click on the Status Screen for Z Babystepping.
+  #define DOUBLECLICK_FOR_Z_BABYSTEPPING  // 상태 화면에서 Z Babystepping을 위해 더블 클릭 활성화
   #if ENABLED(DOUBLECLICK_FOR_Z_BABYSTEPPING)
-    #define DOUBLECLICK_MAX_INTERVAL 1250   // Maximum interval between clicks, in milliseconds.
-                                            // Note: Extra time may be added to mitigate controller latency.
-    //#define MOVE_Z_WHEN_IDLE              // Jump to the move Z menu on doubleclick when printer is idle.
+    #define DOUBLECLICK_MAX_INTERVAL 1250   // 더블 클릭 간 최대 간격
+    //#define MOVE_Z_WHEN_IDLE              // 유휴 상태일 때 Z 이동 메뉴로 이동
     #if ENABLED(MOVE_Z_WHEN_IDLE)
-      #define MOVE_Z_IDLE_MULTIPLICATOR 1   // Multiply 1mm by this factor for the move step size.
+      #define MOVE_Z_IDLE_MULTIPLICATOR 1   // Z 이동 스텝 크기
     #endif
   #endif
 
-  #define BABYSTEP_DISPLAY_TOTAL          // Display total babysteps since last G28
+  #define BABYSTEP_DISPLAY_TOTAL          // 전체 Babystepping 수 표시
 
-  //#define BABYSTEP_ZPROBE_OFFSET          // Combine M851 Z and Babystepping
+  //#define BABYSTEP_ZPROBE_OFFSET          // M851 Z 오프셋과 Babystepping 결합
   #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
-    //#define BABYSTEP_HOTEND_Z_OFFSET      // For multiple hotends, babystep relative Z offsets
-    //#define BABYSTEP_ZPROBE_GFX_OVERLAY   // Enable graphical overlay on Z-offset editor
+    //#define BABYSTEP_HOTEND_Z_OFFSET      // 여러 핫엔드를 위한 상대적 Z 오프셋 설정
+    //#define BABYSTEP_ZPROBE_GFX_OVERLAY   // Z 오프셋 편집기의 그래픽 오버레이 활성화
   #endif
 #endif
 
