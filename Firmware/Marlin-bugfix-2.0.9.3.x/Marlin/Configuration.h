@@ -1152,7 +1152,7 @@
  *      - normally-open switches to 5V and D32.
  */
 // 축 스위치 핀 지정 (수동 레벨링)
-#define Z_MIN_PROBE_PIN PB7 // Pin 32 is the RAMPS default
+// #define Z_MIN_PROBE_PIN PB7 // Pin 32 is the RAMPS default
 
 /**
  * Probe Type
@@ -1767,7 +1767,7 @@
 
     // Beyond the probed grid, continue the implied tilt?
     // Default is to maintain the height of the nearest edge.
-    #define EXTRAPOLATE_BEYOND_GRID
+    // #define EXTRAPOLATE_BEYOND_GRID
 
     //
     // Experimental Subdivision of the grid by Catmull-Rom method.
@@ -1821,7 +1821,7 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-#define LCD_BED_LEVELING
+// #define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  -0.001 // (mm) Step size while manually probing Z axis.
